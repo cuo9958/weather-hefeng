@@ -1,0 +1,13 @@
+{
+    "apps": [
+        {
+            "name": "weather@8082",
+            "script": "src/index.js",
+            "args": [],
+            "env": {
+                "PORT": "8082",
+                "NODE_ENV": "production"
+            }
+        }
+    ]
+}
