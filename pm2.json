@@ -1,11 +1,11 @@
 {
     "apps": [
         {
-            "name": "weather@8082",
+            "name": "weather@8085",
             "script": "src/index.js",
             "args": [],
             "env": {
-                "PORT": "8082",
+                "PORT": "8085",
                 "NODE_ENV": "production"
             }
         }
