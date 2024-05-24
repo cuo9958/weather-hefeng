@@ -1,5 +1,5 @@
 import { LRUCache } from 'lru-cache';
-import { GetGeoApi, GetWeatherNowApi, GetWeather24HApi } from './hefeng.js';
+import { GetGeoApi, GetWeatherNowApi, GetWeather24HApi, GetWeather7DayApi, GetWeatherIndicesApi, GetWeatherAirApi } from './hefeng.js';
 
 // 30分钟的实时天气
 const WeatherNowCache = new LRUCache({
@@ -83,5 +83,47 @@ export async function GetWeather24HModel(city) {
     const data = await GetWeather24HApi(city);
     const model = data.hourly;
     WeatherHourCache.set(city, model);
+    return model;
+}
+// 4小时缓存的7天天气
+const Weather7DayCache = new LRUCache({
+    // how long to live in ms
+    ttl: 1000 * 60 * 60 * 4,
+});
+
+export async function GetWeather7DayModel(city) {
+    if (Weather7DayCache.has(city)) return Weather7DayCache.get(city);
+    const data = await GetWeather7DayApi(city);
+    const model = data.daily;
+    Weather7DayCache.set(city, model);
+    return model;
+}
+// 10小时缓存的天气指数
+const IndicesCache = new LRUCache({
+    // how long to live in ms
+    ttl: 1000 * 60 * 60 * 10,
+});
+export function GetWeatherIndicesModel(city) {
+    if (IndicesCache.has(city)) return IndicesCache.get(city);
+    const data = GetWeatherIndicesApi(city);
+    const model = data;
+    IndicesCache.set(city, model);
+    return model;
+}
+
+// 50分钟的空气质量
+const AirCache = new LRUCache({
+    // how long to live in ms
+    ttl: 1000 * 60 * 50,
+});
+
+export function GetAirModel(city) {
+    if (AirCache.has(city)) return AirCache.get(city);
+    const data = GetWeatherAirApi(city);
+    const model = {
+        model: data.now,
+        list: data.station,
+    };
+    AirCache.set(city, model);
     return model;
 }

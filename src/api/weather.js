@@ -1,6 +1,6 @@
 import Router from '@koa/router';
 import { BeError, BeSuccess } from '../service/response.js';
-import { GetGeoModel, GetWeatherCityModel, GetWeather24HModel } from '../service/weather.js';
+import { GetGeoModel, GetWeatherCityModel, GetWeather24HModel, GetWeatherIndicesModel, GetAirModel } from '../service/weather.js';
 
 const router = new Router();
 
@@ -39,11 +39,40 @@ router.get('/hourly', async function (ctx) {
 });
 
 // 未来天气预报
-
+router.get('/dayly', async function (ctx) {
+    const { city } = ctx.query;
+    try {
+        if (!city) throw new Error('不存在的城市');
+        const data = await GetWeather24HModel(city);
+        ctx.body = BeSuccess(data);
+    } catch (error) {
+        ctx.body = BeError(error.message);
+    }
+});
+//天气指数
+router.get('/indices', async function (ctx) {
+    const { city } = ctx.query;
+    try {
+        if (!city) throw new Error('不存在的城市');
+        const data = await GetWeatherIndicesModel(city);
+        ctx.body = BeSuccess(data);
+    } catch (error) {
+        ctx.body = BeError(error.message);
+    }
+});
+//空气质量
+router.get('/air', async function (ctx) {
+    const { city } = ctx.query;
+    try {
+        if (!city) throw new Error('不存在的城市');
+        const data = await GetAirModel(city);
+        ctx.body = BeSuccess(data);
+    } catch (error) {
+        ctx.body = BeError(error.message);
+    }
+});
 //高精度格点天气
 //灾害预警
-//天气指数
-//空气质量
 //历史天气
 //台风预报
 //海洋预报

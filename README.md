@@ -2,6 +2,7 @@
 
 需要在服务器上配置环境变量：WEATHER_KEY
 
+https://dev.qweather.com/docs/api/air/air-now/
 https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/location-guidelines-0000001820880261#ZH-CN_TOPIC_0000001811156662__%E5%BC%80%E5%8F%91%E6%AD%A5%E9%AA%A4
 
 ## 设计方案
@@ -25,3 +26,29 @@ https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/location-guideline
 | 台风             | 活跃期 20 分钟,非活跃期 60 分钟 |
 | 太阳辐照         | 6 小时                          |
 | GeoAPI           | 6 个月                          |
+
+## 接口
+
+### /api_weather?city
+
+获取城市对应的天气
+
+### /api_weather/get_city?location
+
+根据经纬度获取城市
+
+### /api_weather/hourly?city
+
+根据城市获取最近 24 小时的天气
+
+### /api_weather/dayly?city
+
+根据城市获取未来 7 天的天气
+
+### /api_weather/indices?city
+
+根据城市获取天气指数
+
+### /api_weather/air?city
+
+根据城市获取实时空气质量
