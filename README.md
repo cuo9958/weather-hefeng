@@ -2,6 +2,8 @@
 
 需要在服务器上配置环境变量：WEATHER_KEY
 
+https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/location-guidelines-0000001820880261#ZH-CN_TOPIC_0000001811156662__%E5%BC%80%E5%8F%91%E6%AD%A5%E9%AA%A4
+
 ## 设计方案
 
 1. API 实现官方的所有 API 接口，host 使用免费版本。

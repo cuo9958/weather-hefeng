@@ -1,13 +1,14 @@
 import Router from '@koa/router';
 import { BeError, BeSuccess } from '../service/response.js';
-import { GetWeatherNow, GetGeoApi } from '../service/hefeng.js';
+import { GetGeoModel, GetWeatherCityModel, GetWeather24HModel } from '../service/weather.js';
 
 const router = new Router();
 
 //获取当前位置城市
-router.get('/', async function (ctx) {
+router.get('/get_city', async function (ctx) {
+    const { location } = ctx.query;
     try {
-        const data = await GetGeoApi('116.45,39.90');
+        const data = await GetGeoModel(location || '116.45,39.90');
         ctx.body = BeSuccess(data);
     } catch (error) {
         ctx.body = BeError(error.message);
@@ -15,8 +16,30 @@ router.get('/', async function (ctx) {
 });
 
 //获取对应城市当前天气
-// 未来天气预报
+router.get('/', async function (ctx) {
+    const { city } = ctx.query;
+    try {
+        if (!city) throw new Error('不存在的城市');
+        const data = await GetWeatherCityModel(city);
+        ctx.body = BeSuccess(data);
+    } catch (error) {
+        ctx.body = BeError(error.message);
+    }
+});
 //小时级天气预报
+router.get('/hourly', async function (ctx) {
+    const { city } = ctx.query;
+    try {
+        if (!city) throw new Error('不存在的城市');
+        const data = await GetWeather24HModel(city);
+        ctx.body = BeSuccess(data);
+    } catch (error) {
+        ctx.body = BeError(error.message);
+    }
+});
+
+// 未来天气预报
+
 //高精度格点天气
 //灾害预警
 //天气指数
